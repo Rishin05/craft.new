@@ -25,6 +25,8 @@ const googleLogin = useGoogleLogin({
   
       console.log(userInfo);
       setUserDetail(userInfo?.data)
+
+      
       closeDialog(false)
 
     },
