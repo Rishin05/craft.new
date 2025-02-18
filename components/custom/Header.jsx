@@ -6,6 +6,7 @@ import { UserDetailContext } from "@/context/UserDetailContext";
 
 function Header() {
   const { userDetail, setUserDetail } = useContext(UserDetailContext);
+  
 
   return (
     <div className="p-4 flex justify-between items-center">
