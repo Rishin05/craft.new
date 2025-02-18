@@ -11,6 +11,7 @@ const Loader = () => {
             <span className="word">Code</span>
             <span className="word">Previews</span>
             <span className="word">Sandbox</span>
+            <span className="word">Previews</span>
             <span className="word">Code</span>
           </div>
         </div>

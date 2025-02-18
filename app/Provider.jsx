@@ -38,22 +38,26 @@ function Provider({ children }) {
   return (
     <div>
       <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID_KEY}>
-      <UserDetailContext.Provider value={{userDetail,setUserDetail}}>
-      <MessagesContext.Provider value={{messages,setMessages}}>
-        <NextThemesProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Header />
-          <SidebarProvider defaultOpen={false}>
-            <AppSideBar/>
-          {children}
-          </SidebarProvider>
-        </NextThemesProvider>
-      </MessagesContext.Provider>
-      </UserDetailContext.Provider>
+        <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
+          <MessagesContext.Provider value={{ messages, setMessages }}>
+            <NextThemesProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Header />
+              <div className="flex">
+                <SidebarProvider defaultOpen={false}>
+                  <AppSideBar />
+                  <main className="flex-1 flex justify-center">
+                    {children}
+                  </main>
+                </SidebarProvider>
+              </div>
+            </NextThemesProvider>
+          </MessagesContext.Provider>
+        </UserDetailContext.Provider>
       </GoogleOAuthProvider>
     </div>
   );

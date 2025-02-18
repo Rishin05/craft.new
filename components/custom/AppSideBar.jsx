@@ -16,7 +16,7 @@ import FooterSidebar from "./FooterSidebar";
 function AppSideBar() {
   return (
     <div>
-      <Sidebar>
+      <Sidebar className="w-64 min-h-screen">
         <SidebarHeader className="p-5">
             <Image src={'/logo.png'} alt='logo' width={30} height={30}/>
             <Button className="mt-5"><MessageCircleCode/>Start A New Chat</Button>

@@ -15,6 +15,13 @@ import React, { useContext, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useSidebar } from "../ui/sidebar";
 
+export const countToken = (inputText) => {
+  return inputText
+    .trim()
+    .split(/\s+/)
+    .filter((word) => word).length;
+};
+
 function ChatView() {
   const { id } = useParams();
   const convex = useConvex();
@@ -23,7 +30,8 @@ function ChatView() {
   const [userInput, setUserInput] = useState();
   const [loading, setLoading] = useState(false);
   const UpdateMessages = useMutation(api.workspace.UpdateMessages);
-  const {toggleSidebar}=useSidebar();
+  const { toggleSidebar } = useSidebar();
+  const UpdateTokens = useMutation(api.users.UpdateToken);
 
   useEffect(() => {
     id && GetWorkspaceData();
@@ -49,21 +57,49 @@ function ChatView() {
   }, [messages]);
 
   const GetAiResponse = async () => {
-    setLoading(true);
-    const PROMPT = JSON.stringify(messages) + Prompt.CHAT_PROMPT;
-    const result = await axios.post("/api/ai-chat", {
-      prompt: PROMPT,
-    });
-    const aiResp = {
-      role: "ai",
-      content: result.data.result,
-    };
-    setMessages((prev) => [...prev, aiResp]);
-    await UpdateMessages({
-      messages: [...messages, aiResp],
-      workspaceId: id,
-    });
-    setLoading(false);
+    try {
+      setLoading(true);
+      const PROMPT = JSON.stringify(messages) + Prompt.CHAT_PROMPT;
+      const result = await axios.post("/api/ai-chat", {
+        prompt: PROMPT,
+      });
+      const aiResp = {
+        role: "ai",
+        content: result.data.result,
+      };
+
+      const tokensUsed = countToken(JSON.stringify(aiResp));
+
+      if (!userDetail?._id || typeof userDetail?.token !== "number") {
+        console.error("User details or tokens not properly initialized");
+        return;
+      }
+
+      const currentTokens = Number(userDetail.token);
+      const newTokenBalance = Math.max(0, currentTokens - tokensUsed);
+
+      const updatedMessages = [...messages, aiResp];
+      setMessages(updatedMessages);
+
+      await UpdateMessages({
+        messages: updatedMessages,
+        workspaceId: id,
+      });
+
+      await UpdateTokens({
+        userId: userDetail._id,
+        token: newTokenBalance,
+      });
+
+      setUserDetail((prev) => ({
+        ...prev,
+        token: newTokenBalance,
+      }));
+    } catch (error) {
+      console.error("Error in GetAiResponse:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onGenerate = (input) => {
@@ -117,7 +153,16 @@ function ChatView() {
 
       {/* Input Section */}
       <div className="flex gap-2 items-end">
-        {userDetail&& <Image src={userDetail?.picture} alt="user" width={30} height={30} onClick={toggleSidebar} className="rounded-full cursor-pointer"/>}
+        {userDetail && (
+          <Image
+            src={userDetail?.picture}
+            alt="user"
+            width={30}
+            height={30}
+            onClick={toggleSidebar}
+            className="rounded-full cursor-pointer"
+          />
+        )}
         <div
           className="p-5 border rounded-xl max-w-xl w-full mt-3 scroll-smooth"
           style={{
