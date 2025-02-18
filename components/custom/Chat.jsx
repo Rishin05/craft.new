@@ -12,7 +12,7 @@ import { ArrowRight, Link, Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from "react-markdown";
 
 function ChatView() {
   const { id } = useParams();
@@ -21,7 +21,7 @@ function ChatView() {
   const { messages, setMessages } = useContext(MessagesContext);
   const [userInput, setUserInput] = useState();
   const [loading, setLoading] = useState(false);
-  const UpdateMessages=useMutation(api.workspace.UpdateMessages)
+  const UpdateMessages = useMutation(api.workspace.UpdateMessages);
 
   useEffect(() => {
     id && GetWorkspaceData();
@@ -52,62 +52,65 @@ function ChatView() {
     const result = await axios.post("/api/ai-chat", {
       prompt: PROMPT,
     });
-    const aiResp={
+    const aiResp = {
       role: "ai",
       content: result.data.result,
-    }
-    setMessages((prev) => [
-      ...prev,aiResp
-    ]);
+    };
+    setMessages((prev) => [...prev, aiResp]);
     await UpdateMessages({
-      messages:[...messages,aiResp],
-      workspaceId:id
-    })
+      messages: [...messages, aiResp],
+      workspaceId: id,
+    });
     setLoading(false);
   };
 
-  const onGenerate=(input)=>{
-    setMessages(prev=>[...prev,{
-      role:'user',
-      content:input
-    }])
-    setUserInput('')
-  }
+  const onGenerate = (input) => {
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: "user",
+        content: input,
+      },
+    ]);
+    setUserInput("");
+  };
 
   return (
     <div className="relative h-[85vh] flex flex-col ">
       <div className="flex-1 overflow-y-scroll scrollbar-hide">
-        {messages?.map((msg, index) => (
+        {messages?.length > 0 &&
+          messages.map((msg, index) => (
+            <div
+              key={index}
+              className="p-3 rounded-lg mb-2 flex gap-2 items-center"
+              style={{ backgroundColor: Colors.CHAT_BACKGROUND }}
+            >
+              {msg?.role == "user" && (
+                <Image
+                  src={userDetail?.picture}
+                  alt="userImage"
+                  width={35}
+                  height={35}
+                  className="rounded-full"
+                />
+              )}
+              <ReactMarkdown className="flex flex-col">
+                {msg.content}
+              </ReactMarkdown>
+            </div>
+          ))}
+
+        {loading && (
           <div
-            key={index}
-            className="p-3 rounded-lg mb-2 flex gap-2 items-center"
+            className="p-3 rounded-lg mb-2 flex gap-2 items-center leading-7"
             style={{
               backgroundColor: Colors.CHAT_BACKGROUND,
             }}
           >
-            {msg?.role == "user" && (
-              <Image
-                src={userDetail?.picture}
-                alt="userImage"
-                width={35}
-                height={35}
-                className="rounded-full"
-              />
-            )}
-            <ReactMarkdown className="flex flex-col">{msg.content}</ReactMarkdown>
-            
+            <Loader2Icon className="animate-spin" />
+            <h2>Genetating response...</h2>
           </div>
-        ))}
-        {loading && (
-              <div className="p-3 rounded-lg mb-2 flex gap-2 items-center leading-7"
-              style={{
-                backgroundColor:Colors.CHAT_BACKGROUND
-              }}
-              >
-                <Loader2Icon className="animate-spin" />
-                <h2>Genetating response...</h2>
-              </div>
-            )}
+        )}
       </div>
 
       <div
@@ -118,7 +121,7 @@ function ChatView() {
       >
         <div className="flex gap-2">
           <textarea
-          value={userInput}
+            value={userInput}
             placeholder={Lookup.INPUT_PLACEHOLDER}
             onChange={(event) => setUserInput(event.target.value)}
             className="outline-none bg-transparent w-full h-32 max-h-48 resize-none"
