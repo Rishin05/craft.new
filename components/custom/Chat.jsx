@@ -14,6 +14,7 @@ import { useParams } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useSidebar } from "../ui/sidebar";
+import { toast } from "sonner";
 
 export const countToken = (inputText) => {
   return inputText
@@ -75,7 +76,7 @@ function ChatView() {
         return;
       }
 
-      const currentTokens = Number(userDetail.token);
+      const currentTokens = Number(userDetail?.token);
       const newTokenBalance = Math.max(0, currentTokens - tokensUsed);
 
       const updatedMessages = [...messages, aiResp];
@@ -85,7 +86,10 @@ function ChatView() {
         messages: updatedMessages,
         workspaceId: id,
       });
-
+      setUserDetail(prev=>({
+        ...prev,
+        token:newTokenBalance
+      }))
       await UpdateTokens({
         userId: userDetail._id,
         token: newTokenBalance,
@@ -103,6 +107,10 @@ function ChatView() {
   };
 
   const onGenerate = (input) => {
+    if (userDetail?.token < 10) {
+      toast("You dont have enough token");
+      return;
+    }
     setMessages((prev) => [
       ...prev,
       {

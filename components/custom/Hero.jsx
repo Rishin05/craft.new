@@ -26,6 +26,10 @@ function Hero() {
       setOpenDialog(true)
       return ;
     }
+    if(userDetail?.token<10){
+      toast('You dont have enough token')
+      return ;
+    }
      const msg={
       role:'user',
       content:input
@@ -62,7 +66,7 @@ function Hero() {
         </div>
       </div>
       <div className="mt-8 flex flex-wrap max-w-2xl items-center justify-center gap-3">
-        {Lookup?.SUGGSTIONS.map((suggestion,index)=>(
+        {Lookup?.SUGGESTIONS.map((suggestion,index)=>(
           <h2 key={index}
           className="p-1 px-2 border rounded-full text-sm text-gray-400 cursor-pointer hover:text-white"
           onClick={()=>onGenerate(suggestion)}

@@ -10,6 +10,7 @@ import { useConvex } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSideBar from "@/components/custom/AppSideBar";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 function Provider({ children }) {
 
@@ -38,6 +39,7 @@ function Provider({ children }) {
   return (
     <div>
       <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID_KEY}>
+      <PayPalScriptProvider options={{ clientId:process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID }}>
         <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
           <MessagesContext.Provider value={{ messages, setMessages }}>
             <NextThemesProvider
@@ -58,6 +60,7 @@ function Provider({ children }) {
             </NextThemesProvider>
           </MessagesContext.Provider>
         </UserDetailContext.Provider>
+        </PayPalScriptProvider>
       </GoogleOAuthProvider>
     </div>
   );
