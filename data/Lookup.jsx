@@ -83,8 +83,8 @@ export default config;
   PRICING_OPTIONS: [
     {
       name: "Basic",
-      tokens: "50K",
-      value: 50000,
+      tokens: "69K",
+      value: 69420,
       desc: "Ideal for hobbyists and casual users for light, exploratory use.",
       price: 4.99,
     },
