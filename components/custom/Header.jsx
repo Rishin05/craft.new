@@ -8,6 +8,7 @@ import { useSidebar } from "../ui/sidebar";
 import { ActionContext } from "@/context/ActionContext";
 import SignInDialog from "./SignInDialog";
 import { usePathname } from "next/navigation"; // Import usePathname
+import { Download, Rocket } from "lucide-react";
 
 function Header() {
   const { userDetail } = useContext(UserDetailContext);
@@ -49,7 +50,7 @@ function Header() {
           {/* Show Export and Deploy buttons only on /workspace/ route */}
           {isWorkspaceRoute && (
             <>
-              <Button variant="outline" onClick={() => onActionBtn('export')}>Export</Button>
+              <Button variant="outline" onClick={() => onActionBtn('export')}><Download/>Export</Button>
               <Button
                 className="text-white"
                 style={{
@@ -57,6 +58,7 @@ function Header() {
                 }}
                 onClick={() => onActionBtn('deploy')}
               >
+                <Rocket/>
                 Deploy
               </Button>
             </>
