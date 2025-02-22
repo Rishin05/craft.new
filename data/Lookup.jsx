@@ -9,7 +9,7 @@ export default {
     "Create Note Taking App with Categories",
     "Create Pomodoro Timer with Task List"
   ],
-  HERO_HEADING: "What do you want to build?",
+  HERO_HEADING: "Welcome to Craft.new",
   HERO_DESC: "Prompt, run, edit, and deploy full-stack web apps.",
   INPUT_PLACEHOLDER: "What you want to build?",
   SIGNIN_HEADING: "Continue With Bolt.New 2.0",
