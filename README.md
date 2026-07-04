@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# craft.new
+
+An AI-powered in-browser app builder, inspired by tools like Bolt.new and v0. Describe an app in plain language and get a live, editable code environment generated for you.
+
+Live demo: [craft-new.vercel.app](https://craft-new.vercel.app)
+
+## Features
+
+- AI-driven code generation powered by Google's Gemini API
+- Live, in-browser code editor and preview via Sandpack
+- Google OAuth sign-in
+- Real-time backend and data sync with Convex
+- PayPal integration for credits/subscriptions
+- Responsive UI built with Radix UI, Tailwind CSS, and shadcn-style components
+
+## Tech Stack
+
+- **Framework:** Next.js 15 (App Router), React 19
+- **AI:** Google Generative AI (Gemini)
+- **Live Code Sandbox:** Sandpack (`@codesandbox/sandpack-react`)
+- **Backend / Database:** Convex
+- **Auth:** Google OAuth (`@react-oauth/google`)
+- **Payments:** PayPal
+- **UI:** Radix UI, Tailwind CSS, `lucide-react`, `next-themes`
+- **Deployment:** Vercel
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- A Convex account/project
+- A Google Generative AI (Gemini) API key
+- A Google OAuth client ID
+- A PayPal client ID (for payment features)
+
+### Installation
+
+```bash
+git clone https://github.com/Rishin05/craft.new.git
+cd craft.new
+npm install
+```
+
+### Environment Variables
+
+Create a `.env.local` file in the project root with the keys required by the app, including your Gemini API key, Convex deployment URL, Google OAuth client ID, and PayPal client ID.
+
+### Running Locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the app.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+craft.new/
+├── app/           # Next.js App Router pages and routes
+├── components/    # UI components
+├── configs/       # App configuration
+├── context/       # React context providers
+├── convex/        # Convex backend functions and schema
+├── data/          # Static data
+├── hooks/         # Custom React hooks
+├── lib/           # Utility functions
+└── public/        # Static assets
+```
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+Deployed on [Vercel](https://vercel.com) at [craft-new.vercel.app](https://craft-new.vercel.app).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contact
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Portfolio:** [rishin.info](https://rishin.info)
+- **LinkedIn:** [linkedin.com/in/patelrishin](https://www.linkedin.com/in/patelrishin/)
+- **GitHub:** [github.com/Rishin05](https://github.com/Rishin05)
